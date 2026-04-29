@@ -1,0 +1,25 @@
+ecommerce_pipeline:
+  target: dev
+  outputs:
+    # ── Local (PostgreSQL) ────────────────────────────────────────────────────
+    dev:
+      type: postgres
+      host:     "{{ env_var('REDSHIFT_HOST', 'localhost') }}"
+      port:     "{{ env_var('REDSHIFT_PORT', '5439') | int }}"
+      dbname:   "{{ env_var('REDSHIFT_DB',   'warehouse') }}"
+      user:     "{{ env_var('REDSHIFT_USER', 'warehouse') }}"
+      password: "{{ env_var('REDSHIFT_PASSWORD', 'warehouse123') }}"
+      schema:   staging
+      threads:  4
+
+    # ── Production (Redshift) ─────────────────────────────────────────────────
+    prod:
+      type: redshift
+      host:     "{{ env_var('REDSHIFT_CLUSTER_ENDPOINT') }}"
+      port:     5439
+      dbname:   warehouse
+      user:     "{{ env_var('REDSHIFT_USER') }}"
+      password: "{{ env_var('REDSHIFT_PASSWORD') }}"
+      schema:   staging
+      threads:  8
+      ra3_node: true

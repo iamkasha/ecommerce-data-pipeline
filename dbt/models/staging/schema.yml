@@ -1,0 +1,43 @@
+version: 2
+
+sources:
+  - name: staging
+    schema: staging
+    tables:
+      - name: orders
+      - name: users
+      - name: products
+      - name: daily_revenue
+      - name: product_metrics
+      - name: user_order_summary
+
+models:
+  - name: stg_orders
+    description: "Cleaned and typed orders from staging"
+    columns:
+      - name: order_id
+        tests: [unique, not_null]
+      - name: user_id
+        tests: [not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['completed','shipped','processing','cancelled','refunded','unknown']
+      - name: net_amount
+        tests: [not_null]
+
+  - name: stg_users
+    description: "Cleaned users from staging"
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+      - name: email
+        tests: [unique, not_null]
+
+  - name: stg_products
+    description: "Cleaned products from staging"
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+      - name: sku
+        tests: [unique, not_null]
