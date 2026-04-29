@@ -9,12 +9,22 @@ Full batch pipeline:
   4. PySpark: Silver → Gold (aggregates)
   5. Load Gold → Warehouse (Redshift / PostgreSQL)
 """
-from datetime import datetime, timedelta
+import sys
 
-from airflow import DAG
-from airflow.operators.python import PythonOperator
-from airflow.operators.bash import BashOperator
-from airflow.utils.dates import days_ago
+sys.path.insert(0, "/opt/airflow")
+
+from datetime import timedelta  # noqa: E402
+
+from airflow import DAG  # noqa: E402
+from airflow.operators.bash import BashOperator  # noqa: E402
+from airflow.operators.python import PythonOperator  # noqa: E402
+from airflow.utils.dates import days_ago  # noqa: E402
+from data_quality.validate import run_validation  # noqa: E402
+from ingestion.batch.postgres_extractor import run_batch  # noqa: E402
+from processing.bronze_to_silver.clean_orders import run as clean_orders  # noqa: E402
+from processing.bronze_to_silver.clean_users import run_products, run_users  # noqa: E402
+from processing.silver_to_gold.aggregate_daily import run as aggregate  # noqa: E402
+from warehouse.loaders.redshift_loader import run as load_warehouse  # noqa: E402
 
 # ── Default Args ──────────────────────────────────────────────────────────────
 default_args = {
@@ -23,17 +33,6 @@ default_args = {
     "retry_delay":      timedelta(minutes=5),
     "email_on_failure": False,
 }
-
-# ── Import pipeline functions ─────────────────────────────────────────────────
-import sys
-sys.path.insert(0, "/opt/airflow")
-
-from ingestion.batch.postgres_extractor import run_batch
-from processing.bronze_to_silver.clean_orders import run as clean_orders
-from processing.bronze_to_silver.clean_users import run_users, run_products
-from processing.silver_to_gold.aggregate_daily import run as aggregate
-from warehouse.loaders.redshift_loader import run as load_warehouse
-from data_quality.validate import run_validation
 
 
 def extract(**context):

@@ -13,12 +13,9 @@ Usage:
     python -m processing.silver_to_gold.aggregate_daily
 """
 import os
-import argparse
-from datetime import date, timedelta
 
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql import functions as F
-from pyspark.sql.window import Window
 from dotenv import load_dotenv
 from loguru import logger
 
@@ -99,7 +96,6 @@ def build_product_metrics(orders: DataFrame, items: DataFrame,
 
 def build_user_order_summary(orders: DataFrame) -> DataFrame:
     """Per-user order history — feeds CLV and cohort analysis in dbt."""
-    window = Window.partitionBy("user_id").orderBy("order_date")
     return (
         orders.filter(F.col("status") == "completed")
         .groupBy("user_id")

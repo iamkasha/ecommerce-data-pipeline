@@ -126,8 +126,10 @@ jobs:
 
       - name: Terraform Init
         working-directory: terraform
-        run: terraform init -backend=false
+        run: terraform init -backend=false -upgrade
 
       - name: Terraform Validate
         working-directory: terraform
         run: terraform validate
+        env:
+          AWS_DEFAULT_REGION: us-east-1
