@@ -21,8 +21,7 @@ from datetime import date, timedelta
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql import functions as F
 from pyspark.sql.types import (
-    StructType, StructField, StringType, DecimalType,
-    TimestampType, BooleanType
+    StructType, StructField, StringType, DecimalType
 )
 from dotenv import load_dotenv
 from loguru import logger

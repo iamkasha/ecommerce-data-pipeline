@@ -2,10 +2,7 @@
 Unit tests for data transformation logic.
 Uses mocked S3 (moto) and local PySpark.
 """
-import pytest
 import pandas as pd
-from datetime import date
-from unittest.mock import patch, MagicMock
 
 
 class TestOrderValidation:

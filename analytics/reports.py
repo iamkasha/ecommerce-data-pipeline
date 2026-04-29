@@ -16,14 +16,12 @@ Usage:
     python -m analytics.reports --output csv --file report.csv
 """
 import os
-import argparse
-from datetime import date, timedelta
+from datetime import date
 from textwrap import dedent
 
 import psycopg2
 import pandas as pd
 from dotenv import load_dotenv
-from loguru import logger
 
 load_dotenv()
 

@@ -16,9 +16,8 @@ Usage:
 """
 import os
 import argparse
-from datetime import date, timedelta
+from datetime import date
 
-import awswrangler as wr
 import boto3
 import pandas as pd
 import psycopg2

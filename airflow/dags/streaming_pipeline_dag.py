@@ -12,7 +12,6 @@ from datetime import datetime, timedelta
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator, BranchPythonOperator
-from airflow.operators.bash import BashOperator
 from airflow.utils.dates import days_ago
 
 default_args = {
@@ -24,7 +23,8 @@ default_args = {
 
 def check_kafka_lag(**context):
     """Check consumer group lag — alert if > threshold."""
-    import subprocess, json
+    import subprocess
+    import json
     try:
         result = subprocess.run(
             ["kafka-consumer-groups",
@@ -51,8 +51,9 @@ def alert_high_lag(**context):
 
 def compact_events(**context):
     """Merge many small JSON files into larger Parquet files."""
-    import boto3, io, json
-    from datetime import datetime
+    import boto3
+    import io
+    import json
     import pandas as pd
 
     env = "local"

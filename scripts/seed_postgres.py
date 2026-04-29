@@ -7,11 +7,10 @@ Usage:
     python scripts/seed_postgres.py --users 5000 --products 500 --orders 20000
 """
 import os
-import sys
 import uuid
 import random
 import argparse
-from datetime import datetime, timedelta, date
+from datetime import date
 
 import psycopg2
 from psycopg2.extras import execute_values

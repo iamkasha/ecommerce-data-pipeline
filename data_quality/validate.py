@@ -23,8 +23,7 @@ Usage:
 """
 import os
 import argparse
-import json
-from datetime import date, timedelta, datetime
+from datetime import date
 
 import boto3
 import pandas as pd

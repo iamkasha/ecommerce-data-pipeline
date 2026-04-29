@@ -11,9 +11,8 @@ Usage:
     python -m ingestion.batch.postgres_extractor --table orders --date 2024-01-15
 """
 import os
-import json
 import argparse
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 from typing import Iterator
 
 import boto3
